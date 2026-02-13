@@ -1,3 +1,7 @@
+import { RESERVATION_ACTION, ReservationAction } from "./common_variable";
+type ReservationType =
+  (typeof RESERVATION_ACTION)[keyof typeof RESERVATION_ACTION];
+
 export interface ConcertCardProps {
   id: string;
   name: string;
@@ -22,4 +26,12 @@ export interface Concert {
   reservedSeat: number;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface Reservation {
+  id: string;
+  name: string;
+  cid: string;
+  action: ReservationType;
+  createdAt: Date;
 }

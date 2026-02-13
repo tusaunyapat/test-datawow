@@ -2,10 +2,11 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
 import { APP_MENU, ROLE } from "../common_variable";
 import { useEffect } from "react";
-import { Concert } from "../type";
+import { Concert, Reservation } from "../type";
 import getAllConcerts, { deleteConcert } from "../api/concert";
 import { createConcert } from "../api/concert";
 import { useCallback } from "react";
+import getAllReservations from "../api/reservation";
 type MenuType = (typeof APP_MENU)[keyof typeof APP_MENU];
 type RoleType = (typeof ROLE)[keyof typeof ROLE];
 
@@ -19,7 +20,11 @@ interface ContextType {
   concerts: Concert[] | null;
   setConcerts: (concerts: Concert[]) => void;
 
+  reservations: Reservation[] | null;
+  setReservations: (concerts: Reservation[]) => void;
+
   refreshConcerts: () => Promise<void>;
+  refreshReservations: () => Promise<void>;
   addConcert: (
     name: string,
     totalSeats: number,
@@ -34,12 +39,23 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [activeTab, setActiveTab] = useState<MenuType>(APP_MENU.HOME);
   const [role, setRole] = useState<RoleType>(ROLE.ADMIN);
   const [concerts, setConcerts] = useState<Concert[] | null>([]);
+  const [reservations, setReservations] = useState<Reservation[] | null>([]);
 
   const refreshConcerts = useCallback(async () => {
     try {
       const data = await getAllConcerts();
       console.log(data);
       setConcerts(data);
+    } catch (error) {
+      console.error("Failed to fetch concerts:", error);
+    }
+  }, []);
+
+  const refreshReservations = useCallback(async () => {
+    try {
+      const data = await getAllReservations();
+      console.log(data);
+      setReservations(data);
     } catch (error) {
       console.error("Failed to fetch concerts:", error);
     }
@@ -81,6 +97,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     refreshConcerts();
+    refreshReservations();
   }, []);
 
   useEffect(() => console.log("selected tap", activeTab), [activeTab]);
@@ -95,9 +112,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
         setRole,
         concerts,
         setConcerts,
+        reservations,
+        setReservations,
         refreshConcerts,
         addConcert,
         removeConcert,
+        refreshReservations,
       }}
     >
       {children}

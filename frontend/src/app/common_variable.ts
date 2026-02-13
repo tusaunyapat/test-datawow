@@ -1,5 +1,5 @@
 export const CONCERTS = "concerts";
-
+export const RESERVATIONS = "reservations";
 export const APP_MENU = {
   HOME: "home",
   HISTORY: "history",
