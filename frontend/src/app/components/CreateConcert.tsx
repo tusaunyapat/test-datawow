@@ -6,17 +6,45 @@ import {
   TextField,
   Button,
   InputAdornment,
-  Divider,
 } from "@mui/material";
 import { FiUser, FiSave } from "react-icons/fi";
 import BaseCard from "./BaseCard";
+import { useAppContext } from "../context/AppContext";
 
 export default function CreateConcert() {
   const [formData, setFormData] = useState({
     name: "",
-    total: 0,
+    totalSeats: 0,
     description: "",
   });
+
+  // Ensure this matches the name in your AppContext (createConcert or addConcert)
+  const { addConcert } = useAppContext();
+
+  const handleClickSave = async () => {
+    if (!formData.name || formData.totalSeats <= 0) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
+    try {
+      await addConcert(
+        formData.name,
+        formData.totalSeats,
+        formData.description,
+      );
+
+      // Successfully cleared!
+      setFormData({
+        name: "",
+        totalSeats: 0,
+        description: "",
+      });
+      alert("Concert Created!");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="pt-6">
@@ -36,6 +64,7 @@ export default function CreateConcert() {
                   placeholder="Please input concert name"
                   variant="outlined"
                   size="small"
+                  value={formData.name} // Added value prop
                   onChange={(e) =>
                     setFormData({ ...formData, name: e.target.value })
                   }
@@ -54,11 +83,11 @@ export default function CreateConcert() {
                   type="number"
                   variant="outlined"
                   size="small"
-                  value={formData.total}
+                  value={formData.totalSeats} // Already present
                   onChange={(e) =>
                     setFormData({
                       ...formData,
-                      total: parseInt(e.target.value),
+                      totalSeats: parseInt(e.target.value) || 0,
                     })
                   }
                   InputProps={{
@@ -85,6 +114,7 @@ export default function CreateConcert() {
                 rows={4}
                 placeholder="Please input description"
                 variant="outlined"
+                value={formData.description} // Added value prop
                 onChange={(e) =>
                   setFormData({ ...formData, description: e.target.value })
                 }
@@ -95,7 +125,7 @@ export default function CreateConcert() {
               <Button
                 variant="contained"
                 startIcon={<FiSave />}
-                onClick={() => true}
+                onClick={handleClickSave}
                 sx={{
                   textTransform: "capitalize",
                   px: 4,

@@ -22,7 +22,7 @@ export class ConcertsService {
     return await this.concertRepository.find();
   }
 
-  async findOne(id: number): Promise<Concerts> {
+  async findOne(id: string): Promise<Concerts> {
     const concert = await this.concertRepository.findOneBy({ id });
     if (!concert) {
       throw new NotFoundException(`Concert #${id} not found`);
@@ -30,13 +30,13 @@ export class ConcertsService {
     return concert;
   }
 
-  async update(id: number, updateConcertDto: UpdateConcertDto): Promise<Concerts> {
+  async update(id: string, updateConcertDto: UpdateConcertDto): Promise<Concerts> {
     const concert = await this.findOne(id);
     const updated = Object.assign(concert, updateConcertDto);
     return await this.concertRepository.save(updated);
   }
 
-  async remove(id: number): Promise<void> {
+  async remove(id: string): Promise<void> {
     const concert = await this.findOne(id);
     await this.concertRepository.remove(concert);
   }
