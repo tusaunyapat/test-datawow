@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConcertsModule } from './modules/concerts/concerts.module';
 import { Concerts } from './modules/concerts/entities/concert.entity';
+import { ReservationsModule } from './modules/reservations/reservations.module';
+import { Reservation } from './modules/reservations/entities/reservation.entity';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -14,10 +16,11 @@ import { Concerts } from './modules/concerts/entities/concert.entity';
       password: process.env.DB_PASSWORD || 'your_password',
       database: process.env.DB_DATABASE || 'datawow_db',
       autoLoadEntities: true,
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],      
+      entities: [Concerts, Reservation],      
       synchronize: true, 
     }),
-    ConcertsModule,],
+    ConcertsModule,
+    ReservationsModule,],
   controllers: [AppController],
   providers: [AppService],
 })
