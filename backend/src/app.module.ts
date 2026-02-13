@@ -2,7 +2,8 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
+import { ConcertsModule } from './modules/concerts/concerts.module';
+import { Concerts } from './modules/concerts/entities/concert.entity';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -13,8 +14,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       password: process.env.DB_PASSWORD || 'your_password',
       database: process.env.DB_DATABASE || 'datawow_db',
       autoLoadEntities: true,
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],      
       synchronize: true, 
-    }),],
+    }),
+    ConcertsModule,],
   controllers: [AppController],
   providers: [AppService],
 })
