@@ -5,3 +5,11 @@ export interface ConcertCardProps {
   total: number;
   reservedSeat: number;
 }
+
+export interface UserConcertCardProps {
+  id: string;
+  name: string;
+  description?: string;
+  total: number;
+  isReserved: boolean;
+}
