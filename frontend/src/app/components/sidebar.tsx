@@ -1,7 +1,7 @@
 "use client";
 import { ReactNode } from "react";
 import { FiHome, FiInbox, FiRefreshCcw, FiLogOut } from "react-icons/fi";
-import { APP_MENU } from "../common_variable";
+import { APP_MENU, ROLE } from "../common_variable";
 import { useAppContext } from "../context/AppContext";
 type MenuType = (typeof APP_MENU)[keyof typeof APP_MENU];
 interface NavItemProps {
@@ -10,16 +10,25 @@ interface NavItemProps {
 }
 
 function NavItem({ label, icon }: NavItemProps) {
-  const { activeTab, setActiveTab } = useAppContext();
+  const { activeTab, setActiveTab, role, setRole } = useAppContext();
   const isActive = label == activeTab;
+  const handleClick = () => {
+    if (label == APP_MENU.HISTORY || label == APP_MENU.HOME) {
+      setActiveTab(label);
+      return;
+    }
+
+    setRole(role == ROLE.ADMIN ? ROLE.USER : ROLE.ADMIN);
+  };
   return (
     <li
+      key={label}
       className={`p-2 mt-2 mx-2 hover:bg-sky-200/50 cursor-pointer transition-colors text-black rounded-md flex items-center gap-3 ${
         isActive ? "bg-sky-700/10  font-medium" : "text-gray-600 "
       }`}
     >
       <button
-        onClick={() => setActiveTab(label)}
+        onClick={handleClick}
         className="flex flex-row items-center gap-2"
       >
         <span className="flex items-center text-lg">{icon}</span>
@@ -30,10 +39,14 @@ function NavItem({ label, icon }: NavItemProps) {
 }
 
 export default function Sidebar() {
+  const { role } = useAppContext();
   const menuItems = [
     { label: APP_MENU.HOME, icon: <FiHome /> },
     { label: APP_MENU.HISTORY, icon: <FiInbox /> },
-    { label: APP_MENU.SWITCH, icon: <FiRefreshCcw /> },
+    {
+      label: role == ROLE.ADMIN ? APP_MENU.TO_USER : APP_MENU.TO_ADMIN,
+      icon: <FiRefreshCcw />,
+    },
   ];
 
   return (
