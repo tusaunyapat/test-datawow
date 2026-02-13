@@ -40,23 +40,31 @@ function NavItem({ label, icon }: NavItemProps) {
 
 export default function Sidebar() {
   const { role } = useAppContext();
-  const menuItems = [
-    { label: APP_MENU.HOME, icon: <FiHome /> },
-    { label: APP_MENU.HISTORY, icon: <FiInbox /> },
-    {
-      label: role == ROLE.ADMIN ? APP_MENU.TO_USER : APP_MENU.TO_ADMIN,
-      icon: <FiRefreshCcw />,
-    },
-  ];
 
   return (
     <div className="flex flex-col h-screen bg-white justify-between py-6 border-r border-gray-200">
       <div className="flex flex-col">
         <h1 className="text-2xl text-black font-bold p-4">Admin</h1>
         <ul className="flex flex-col gap-1">
-          {menuItems.map((item) => (
-            <NavItem key={item.label} label={item.label} icon={item.icon} />
-          ))}
+          {role == ROLE.ADMIN && (
+            <>
+              <NavItem
+                key={APP_MENU.HOME}
+                label={APP_MENU.HOME}
+                icon={<FiHome />}
+              />
+              <NavItem
+                key={APP_MENU.HISTORY}
+                label={APP_MENU.HISTORY}
+                icon={<FiInbox />}
+              />
+            </>
+          )}
+          <NavItem
+            key={role == ROLE.ADMIN ? APP_MENU.TO_USER : APP_MENU.TO_ADMIN}
+            label={role == ROLE.ADMIN ? APP_MENU.TO_USER : APP_MENU.TO_ADMIN}
+            icon={<FiRefreshCcw />}
+          />
         </ul>
       </div>
       <div className="flex flex-col">
