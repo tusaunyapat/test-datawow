@@ -2,11 +2,30 @@ import { FiTrash2, FiUser } from "react-icons/fi";
 import { Concert } from "../type";
 import BaseCard from "./BaseCard";
 import { useAppContext } from "../context/AppContext";
-import { deleteConcert } from "../api/concert";
+import Swal from "sweetalert2";
+import Alert from "@mui/material/Alert";
 export default function ConcertCard({ concert }: { concert: Concert }) {
   const { removeConcert } = useAppContext();
   const handleClickDelete = () => {
-    removeConcert(concert.id);
+    Swal.fire({
+      title: "Are you sure to delete?",
+      text: `"${concert.name}"`,
+      icon: "error",
+      showCancelButton: true,
+      confirmButtonText: "Yes, Delete",
+      cancelButtonText: "Cancel",
+      buttonsStyling: false,
+      reverseButtons: true,
+      customClass: {
+        confirmButton: "swal-delete-button",
+        cancelButton: "swal-cancel-button",
+        actions: "swal-actions-gap",
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        removeConcert(concert.id);
+      }
+    });
   };
   return (
     <BaseCard title={concert.name}>

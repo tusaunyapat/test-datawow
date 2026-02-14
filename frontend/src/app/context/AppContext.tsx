@@ -7,6 +7,7 @@ import {
   AppMenu,
   Role,
 } from "../common_variable";
+import Swal from "sweetalert2";
 import { useEffect } from "react";
 import { Concert, Reservation } from "../type";
 import getAllConcerts, { deleteConcert } from "../api/concert";
@@ -105,9 +106,25 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
       await refreshConcerts();
 
-      console.log("Concert created successfully!");
+      Swal.fire({
+        toast: true,
+        position: "top-end",
+        icon: "success",
+        title: "Created successfully",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+      });
     } catch (error) {
-      console.error("Error creating concert:", error);
+      Swal.fire({
+        toast: true,
+        position: "top-end",
+        icon: "error",
+        title: "Failed to Create",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+      });
       throw error;
     }
   };
@@ -118,9 +135,25 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
       await refreshConcerts();
 
-      console.log("Concert delete successfully!");
+      Swal.fire({
+        toast: true,
+        position: "top-end",
+        icon: "success",
+        title: "Deleted successfully",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+      });
     } catch (error) {
-      console.error("Error deleting concert:", error);
+      Swal.fire({
+        toast: true,
+        position: "top-end",
+        icon: "error",
+        title: "Failed to Delete",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+      });
       throw error;
     }
   };
@@ -137,12 +170,45 @@ export function AppProvider({ children }: { children: ReactNode }) {
         action: action,
       });
 
+      console.log(response);
+
       await refreshReservations();
       await refreshMyReservations();
-
-      console.log("Reservation created successfully!");
+      if (response.status >= 200 && response.status < 300) {
+        Swal.fire({
+          toast: true,
+          position: "top-end",
+          icon: "success",
+          title: "Created successfully",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+        });
+      } else {
+        // This handles 400 (Bad Request), 401 (Unauthorized), etc.
+        Swal.fire({
+          toast: true,
+          position: "top-end",
+          icon: "error",
+          title:
+            response.status === 400
+              ? "Already Reserved"
+              : "Something went wrong",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+        });
+      }
     } catch (error) {
-      console.error("Error creating reservatoin:", error);
+      Swal.fire({
+        toast: true,
+        position: "top-end",
+        icon: "error",
+        title: "Failed to Reserve",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+      });
       throw error;
     }
   };

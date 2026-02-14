@@ -18,12 +18,10 @@ export default function CreateConcert() {
     description: "",
   });
 
-  // Ensure this matches the name in your AppContext (createConcert or addConcert)
   const { addConcert } = useAppContext();
 
   const handleClickSave = async () => {
     if (!formData.name || formData.totalSeats <= 0) {
-      alert("Please fill in all required fields.");
       return;
     }
 
@@ -34,13 +32,11 @@ export default function CreateConcert() {
         formData.description,
       );
 
-      // Successfully cleared!
       setFormData({
         name: "",
         totalSeats: 0,
         description: "",
       });
-      alert("Concert Created!");
     } catch (error) {
       console.error(error);
     }
@@ -64,7 +60,7 @@ export default function CreateConcert() {
                   placeholder="Please input concert name"
                   variant="outlined"
                   size="small"
-                  value={formData.name} // Added value prop
+                  value={formData.name}
                   onChange={(e) =>
                     setFormData({ ...formData, name: e.target.value })
                   }

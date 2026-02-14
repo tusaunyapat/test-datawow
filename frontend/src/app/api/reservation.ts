@@ -43,5 +43,5 @@ export async function createReservation(payload: {
 
   console.log("resioinse", response);
   console.log("Create successful");
-  return response.json();
+  return response;
 }
