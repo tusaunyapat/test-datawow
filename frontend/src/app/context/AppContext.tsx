@@ -1,43 +1,52 @@
 "use client";
 import React, { createContext, useContext, useState, ReactNode } from "react";
-import { APP_MENU, ROLE } from "../common_variable";
+import {
+  APP_MENU,
+  ROLE,
+  ReservationAction,
+  AppMenu,
+  Role,
+} from "../common_variable";
 import { useEffect } from "react";
 import { Concert, Reservation } from "../type";
 import getAllConcerts, { deleteConcert } from "../api/concert";
 import { createConcert } from "../api/concert";
 import { useCallback } from "react";
-import getAllReservations from "../api/reservation";
-type MenuType = (typeof APP_MENU)[keyof typeof APP_MENU];
-type RoleType = (typeof ROLE)[keyof typeof ROLE];
+import { getAllReservations, createReservation } from "../api/reservation";
 
 interface ContextType {
-  activeTab: MenuType;
-  setActiveTab: (tab: MenuType) => void;
+  activeTab: AppMenu;
+  setActiveTab: (tab: AppMenu) => void;
 
-  role: RoleType;
-  setRole: (role: RoleType) => void;
+  role: Role;
+  setRole: (role: Role) => void;
 
   concerts: Concert[] | null;
   setConcerts: (concerts: Concert[]) => void;
-
-  reservations: Reservation[] | null;
-  setReservations: (concerts: Reservation[]) => void;
-
-  refreshConcerts: () => Promise<void>;
-  refreshReservations: () => Promise<void>;
   addConcert: (
     name: string,
     totalSeats: number,
     description: string,
   ) => Promise<void>;
   removeConcert: (id: string) => void;
+
+  reservations: Reservation[] | null;
+  setReservations: (concerts: Reservation[]) => void;
+  addReservation: (
+    name: string,
+    cid: string,
+    action: ReservationAction,
+  ) => void;
+
+  refreshConcerts: () => Promise<void>;
+  refreshReservations: () => Promise<void>;
 }
 
 const AppContext = createContext<ContextType | undefined>(undefined);
 
 export function AppProvider({ children }: { children: ReactNode }) {
-  const [activeTab, setActiveTab] = useState<MenuType>(APP_MENU.HOME);
-  const [role, setRole] = useState<RoleType>(ROLE.ADMIN);
+  const [activeTab, setActiveTab] = useState<AppMenu>(APP_MENU.HOME);
+  const [role, setRole] = useState<Role>(ROLE.ADMIN);
   const [concerts, setConcerts] = useState<Concert[] | null>([]);
   const [reservations, setReservations] = useState<Reservation[] | null>([]);
 
@@ -95,6 +104,27 @@ export function AppProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const addReservation = async (
+    name: string,
+    cid: string,
+    action: ReservationAction,
+  ) => {
+    try {
+      const response = await createReservation({
+        name: name,
+        cid: cid,
+        action: action,
+      });
+
+      await refreshReservations();
+
+      console.log("Reservation created successfully!");
+    } catch (error) {
+      console.error("Error creating reservatoin:", error);
+      throw error;
+    }
+  };
+
   useEffect(() => {
     refreshConcerts();
     refreshReservations();
@@ -114,6 +144,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         setConcerts,
         reservations,
         setReservations,
+        addReservation,
         refreshConcerts,
         addConcert,
         removeConcert,

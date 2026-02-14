@@ -18,6 +18,6 @@ export const ROLE = {
 } as const;
 
 export type AppMenu = (typeof APP_MENU)[keyof typeof APP_MENU];
-export type ROLE = (typeof ROLE)[keyof typeof ROLE];
+export type Role = (typeof ROLE)[keyof typeof ROLE];
 export type ReservationAction =
   (typeof RESERVATION_ACTION)[keyof typeof RESERVATION_ACTION];

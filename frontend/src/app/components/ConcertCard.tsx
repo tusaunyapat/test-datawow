@@ -11,7 +11,7 @@ export default function ConcertCard({ concert }: { concert: Concert }) {
   return (
     <BaseCard title={concert.name}>
       <p className="text-black text-sm w-full">
-        {concert.id ?? "No Description"}
+        {concert.description ?? "No Description"}
       </p>
       <div className="flex flex-row justify-between w-full">
         <div className="flex flex-row gap-2 items-center text-black ">

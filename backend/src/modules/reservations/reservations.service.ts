@@ -13,6 +13,22 @@ export class ReservationsService {
   ) {}
 
   async create(createReservationDto: CreateReservationDto): Promise<Reservation> {
+
+    const { name } = createReservationDto;
+
+    const reserveCount = await this.reservationRepository.count({
+      where: { name, action: 'reserved' },
+    });
+
+    const cancelCount = await this.reservationRepository.count({
+      where: { name, action: 'cancel' },
+    });
+
+    if (reserveCount > cancelCount) {
+      throw new BadRequestException(
+        `User ${name} already has an active reservation for this concert.`
+      );
+    }
     const reservation = this.reservationRepository.create(createReservationDto);
     return await this.reservationRepository.save(reservation);
   }

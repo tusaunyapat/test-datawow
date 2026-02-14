@@ -65,7 +65,7 @@ export default function History() {
               {reservations && reservations.length > 0 ? (
                 reservations.map((row) => {
                   // 3. Logic to find concert name if only concertId is stored in reservation
-                  const concert = concerts?.find((c) => c.id === row.cid);
+                  const concert = concerts?.find((c) => c.id == row.cid);
                   const displayConcertName = concert?.name || "Unknown Concert";
 
                   return (
