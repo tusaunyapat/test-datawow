@@ -35,7 +35,7 @@ export default function RootLayout({
             </aside>
 
             <main className="flex-1 w-full min-h-screen lg:pt-0 overflow-x-hidden">
-              <div className=" sm:p-6 lg:p-8">{children}</div>
+              <div className="">{children}</div>
             </main>
           </div>
         </AppProvider>
