@@ -79,7 +79,7 @@ export default function CreateConcert() {
                   type="number"
                   variant="outlined"
                   size="small"
-                  value={formData.totalSeats} // Already present
+                  value={formData.totalSeats}
                   onChange={(e) =>
                     setFormData({
                       ...formData,
@@ -110,7 +110,7 @@ export default function CreateConcert() {
                 rows={4}
                 placeholder="Please input description"
                 variant="outlined"
-                value={formData.description} // Added value prop
+                value={formData.description}
                 onChange={(e) =>
                   setFormData({ ...formData, description: e.target.value })
                 }

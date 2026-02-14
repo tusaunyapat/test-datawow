@@ -19,19 +19,16 @@ export class ConcertsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    // REMOVE the + here
     return this.concertsService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateConcertDto: UpdateConcertDto) {
-    // REMOVE the + here
     return this.concertsService.update(id, updateConcertDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    // REMOVE the + here
     return this.concertsService.remove(id);
   }
 }

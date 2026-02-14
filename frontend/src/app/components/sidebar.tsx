@@ -49,7 +49,7 @@ function NavItem({ label, icon }: NavItemProps) {
 
 export default function Sidebar() {
   const { role } = useAppContext();
-  const [isOpen, setIsOpen] = useState(false); // State สำหรับ Mobile
+  const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebar = () => setIsOpen(!isOpen);
 

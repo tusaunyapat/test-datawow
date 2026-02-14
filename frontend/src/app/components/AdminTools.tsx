@@ -14,13 +14,7 @@ function CustomTabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
   return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      className="h-full" // CRITICAL: Fill the flex-1 space
-      {...other}
-    >
-      {/* Box must be h-full so Overview can fill it */}
+    <div role="tabpanel" hidden={value !== index} className="h-full" {...other}>
       {value === index && <Box sx={{ p: 0, height: "100%" }}>{children}</Box>}
     </div>
   );

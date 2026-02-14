@@ -185,7 +185,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
           timerProgressBar: true,
         });
       } else {
-        // This handles 400 (Bad Request), 401 (Unauthorized), etc.
         Swal.fire({
           toast: true,
           position: "top-end",

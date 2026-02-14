@@ -97,7 +97,6 @@ export class ReservationsService {
     await this.reservationRepository.remove(reservation);
   }
 
-  // Adding the SUM logic we discussed earlier
   async getTotalValue(): Promise<number> {
     const result = await this.reservationRepository
       .createQueryBuilder('reservation')

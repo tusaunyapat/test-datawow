@@ -16,7 +16,6 @@ import { useAppContext } from "../context/AppContext";
 import { RESERVATION_ACTION, ROLE } from "../common_variable";
 
 export default function History() {
-  // 1. Destructure with default values to prevent "undefined" crashes
   const {
     reservations = [],
     concerts = [],

@@ -6,15 +6,13 @@ import { FiUser, FiXCircle, FiAward } from "react-icons/fi";
 export default function CalloutContainer() {
   const { reservations, concerts } = useAppContext();
   const total_seat = concerts?.reduce((sum, concert) => {
-    return sum + (concert.totalSeats || 0); // Ensure fallback to 0 if property is missing
+    return sum + (concert.totalSeats || 0);
   }, 0);
 
-  // 2. Count total "RESERVE" actions
   const reserve = reservations?.filter(
     (res) => res.action === RESERVATION_ACTION.RESERVED,
   ).length;
 
-  // 3. Count total "CANCEL" actions
   const cancel = reservations?.filter(
     (res) => res.action === RESERVATION_ACTION.CANCEL,
   ).length;
