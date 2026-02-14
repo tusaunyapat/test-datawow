@@ -14,7 +14,7 @@ export default function Callout({
 }: CalloutProps) {
   return (
     <div
-      className={`w-1/3 flex flex-col items-center gap-2 px-12 py-4 rounded-md ${backgroundColor}`}
+      className={`w-full sm:w-1/3 flex flex-col items-center gap-2 px-12 py-4 rounded-md ${backgroundColor}`}
     >
       <div className="w-full flex justify-center text-2xl text-white">
         {icon}

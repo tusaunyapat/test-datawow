@@ -47,7 +47,7 @@ export default function CreateConcert() {
       <BaseCard title="Create">
         <Box sx={{ p: 1 }}>
           <Box className="flex flex-col gap-4">
-            <Box className="flex flex-row gap-4">
+            <Box className="flex flex-col sm:flex-row gap-4">
               <Box className="flex-1 flex flex-col gap-2">
                 <Typography
                   variant="subtitle1"
@@ -67,7 +67,7 @@ export default function CreateConcert() {
                 />
               </Box>
 
-              <Box className="w-1/3 flex flex-col gap-2">
+              <Box className="w-full sm:w-1/3 flex flex-col gap-2">
                 <Typography
                   variant="subtitle1"
                   sx={{ fontWeight: "normal", color: "black" }}

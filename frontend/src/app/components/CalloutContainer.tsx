@@ -20,7 +20,7 @@ export default function CalloutContainer() {
   ).length;
 
   return (
-    <div className="flex flex-row gap-2 justify-between w-full">
+    <div className="flex flex-col sm:flex-row gap-2 justify-between w-full">
       <Callout
         label="total of seats"
         total={total_seat ?? 0}
