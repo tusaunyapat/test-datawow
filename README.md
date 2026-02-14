@@ -1,6 +1,6 @@
-## 🚀 Installation & Setup
+## Installation & Setup
 
-To get the entire environment (Frontend, Backend, and Database) up and running quickly using Docker, follow these steps:
+To get the entire environment (Frontend, Backend, and Database) up and running quickly using **Docker**, follow these steps:
 
 ### 1. Clone the repository
 ```bash
@@ -19,7 +19,102 @@ Frontend: http://localhost:3000
 
 Backend API: http://localhost:3001
 ```
-## 🧪 Testing
+## Project Structure
+```
+datawow
+├─ .DS_Store
+├─ README.md
+├─ backend
+│  ├─ Dockerfile
+│  ├─ eslint.config.mjs
+│  ├─ nest-cli.json
+│  ├─ package-lock.json
+│  ├─ package.json
+│  ├─ src
+│  │  ├─ app.controller.spec.ts
+│  │  ├─ app.controller.ts
+│  │  ├─ app.module.ts
+│  │  ├─ app.service.ts
+│  │  ├─ main.ts
+│  │  └─ modules
+│  │     ├─ concerts
+│  │     │  ├─ concerts.controller.spec.ts
+│  │     │  ├─ concerts.controller.ts
+│  │     │  ├─ concerts.module.ts
+│  │     │  ├─ concerts.service.spec.ts
+│  │     │  ├─ concerts.service.ts
+│  │     │  ├─ dto
+│  │     │  │  ├─ create-concert.dto.ts
+│  │     │  │  └─ update-concert.dto.ts
+│  │     │  └─ entities
+│  │     │     └─ concert.entity.ts
+│  │     └─ reservations
+│  │        ├─ dto
+│  │        │  ├─ create-reservation.dto.ts
+│  │        │  └─ update-reservation.dto.ts
+│  │        ├─ entities
+│  │        │  └─ reservation.entity.ts
+│  │        ├─ reservations.controller.spec.ts
+│  │        ├─ reservations.controller.ts
+│  │        ├─ reservations.module.ts
+│  │        ├─ reservations.service.spec.ts
+│  │        └─ reservations.service.ts
+│  ├─ tsconfig.build.json
+│  └─ tsconfig.json
+├─ docker-compose.yml
+└─ frontend
+   ├─ Dockerfile
+   ├─ README.md
+   ├─ eslint.config.mjs
+   ├─ next-env.d.ts
+   ├─ next.config.ts
+   ├─ package-lock.json
+   ├─ package.json
+   ├─ postcss.config.mjs
+   ├─ public
+   ├─ src
+   │  └─ app
+   │     ├─ .env
+   │     ├─ .env.example
+   │     ├─ api
+   │     │  ├─ concert.ts
+   │     │  └─ reservation.ts
+   │     ├─ common_variable.ts
+   │     ├─ components
+   │     │  ├─ AdminTools.tsx
+   │     │  ├─ BaseCard.tsx
+   │     │  ├─ Callout.tsx
+   │     │  ├─ CalloutContainer.tsx
+   │     │  ├─ ConcertCard.tsx
+   │     │  ├─ CreateConcert.tsx
+   │     │  ├─ History.tsx
+   │     │  ├─ Homepage.tsx
+   │     │  ├─ Overview.tsx
+   │     │  ├─ UserConcertCard.tsx
+   │     │  ├─ UserConcertContainer.tsx
+   │     │  └─ sidebar.tsx
+   │     ├─ context
+   │     │  └─ AppContext.tsx
+   │     ├─ favicon.ico
+   │     ├─ globals.css
+   │     ├─ layout.tsx
+   │     ├─ page.tsx
+   │     └─ type.ts
+   └─ tsconfig.json
+
+```
+
+## Library Usage
+- Frontend: NextJs with Typescript
+- Backend: NestJs
+- CSS Framework: MUI, Tailwind, Swal
+- Database: Postgres
+- Others: React-icons
+- Orchestration: Docker
+
+
+
+## Testing
 The backend is equipped with unit and integration tests to ensure system reliability and data integrity.
 
 Run Coverage Test
