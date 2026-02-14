@@ -29,6 +29,11 @@ export class ReservationsController {
     return this.reservationsService.findAll();
   }
 
+  @Get(':name/all')
+  findAllById(@Param('name') name: string) {
+    return this.reservationsService.findAllById(name);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.reservationsService.findOne(+id);

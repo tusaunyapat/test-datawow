@@ -19,6 +19,7 @@ function NavItem({ label, icon }: NavItemProps) {
     }
 
     setRole(role == ROLE.ADMIN ? ROLE.USER : ROLE.ADMIN);
+    setActiveTab(APP_MENU.HOME);
   };
   return (
     <li
@@ -29,7 +30,7 @@ function NavItem({ label, icon }: NavItemProps) {
     >
       <button
         onClick={handleClick}
-        className="flex flex-row items-center gap-2"
+        className="flex flex-row items-center gap-2 w-full"
       >
         <span className="flex items-center text-lg">{icon}</span>
         <span className="text-sm capitalize">{label}</span>
@@ -46,20 +47,17 @@ export default function Sidebar() {
       <div className="flex flex-col">
         <h1 className="text-2xl text-black font-bold p-4">Admin</h1>
         <ul className="flex flex-col gap-1">
-          {role == ROLE.ADMIN && (
-            <>
-              <NavItem
-                key={APP_MENU.HOME}
-                label={APP_MENU.HOME}
-                icon={<FiHome />}
-              />
-              <NavItem
-                key={APP_MENU.HISTORY}
-                label={APP_MENU.HISTORY}
-                icon={<FiInbox />}
-              />
-            </>
-          )}
+          <NavItem
+            key={APP_MENU.HOME}
+            label={APP_MENU.HOME}
+            icon={<FiHome />}
+          />
+
+          <NavItem
+            key={APP_MENU.HISTORY}
+            label={APP_MENU.HISTORY}
+            icon={<FiInbox />}
+          />
           <NavItem
             key={role == ROLE.ADMIN ? APP_MENU.TO_USER : APP_MENU.TO_ADMIN}
             label={role == ROLE.ADMIN ? APP_MENU.TO_USER : APP_MENU.TO_ADMIN}

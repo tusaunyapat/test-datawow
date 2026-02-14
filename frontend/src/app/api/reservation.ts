@@ -15,6 +15,20 @@ export async function getAllReservations() {
   return await response.json();
 }
 
+export async function getAllReservationsByName() {
+  console.log(`${baseURL}/${RESERVATIONS}`);
+  const response = await fetch(`${baseURL}/${RESERVATIONS}/user/all`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  if (!response.ok) {
+    throw new Error("Failed to fetch RESERVATIONs");
+  }
+  return await response.json();
+}
+
 export async function createReservation(payload: {
   name: string;
   cid: string;

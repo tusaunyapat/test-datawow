@@ -10,15 +10,8 @@ export default function Home() {
   return (
     <div className="h-screen w-full flex flex-col font-sans dark:bg-black overflow-hidden">
       <main className="flex-1 bg-gray-100 overflow-y-auto">
-        {role === ROLE.USER ? (
-          <UserConcertContainer />
-        ) : (
-          /* If Admin: Show Tab-based content */
-          <>
-            {activeTab === APP_MENU.HOME && <Homepage />}
-            {activeTab === APP_MENU.HISTORY && <History />}
-          </>
-        )}
+        {activeTab === APP_MENU.HOME && <Homepage />}
+        {activeTab === APP_MENU.HISTORY && <History />}
       </main>
     </div>
   );

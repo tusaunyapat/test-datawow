@@ -11,13 +11,21 @@ import {
   Box,
   Typography,
 } from "@mui/material";
+import { useMemo } from "react";
 import { useAppContext } from "../context/AppContext";
-import { RESERVATION_ACTION } from "../common_variable";
+import { RESERVATION_ACTION, ROLE } from "../common_variable";
 
 export default function History() {
   // 1. Destructure with default values to prevent "undefined" crashes
-  const { reservations = [], concerts = [] } = useAppContext();
-
+  const {
+    reservations = [],
+    concerts = [],
+    myReservations,
+    role,
+  } = useAppContext();
+  const reservationList = useMemo(() => {
+    return role === ROLE.ADMIN ? reservations : myReservations;
+  }, [role, reservations, myReservations]);
   const columnStyle = {
     width: "25%",
     fontWeight: "bold",
@@ -41,7 +49,7 @@ export default function History() {
           sx={{
             borderRadius: "4px",
             overflow: "hidden",
-            backgroundColor: "white", // Changed to white for readability, use transparent if layout requires
+            backgroundColor: "white",
             boxShadow: "none",
           }}
         >
@@ -53,7 +61,9 @@ export default function History() {
             <TableHead>
               <TableRow sx={{ backgroundColor: "#f5f5f5" }}>
                 <TableCell sx={columnStyle}>Date time</TableCell>
-                <TableCell sx={columnStyle}>Username</TableCell>
+                {role == ROLE.ADMIN && (
+                  <TableCell sx={columnStyle}>Username</TableCell>
+                )}
                 <TableCell sx={columnStyle}>Concert name</TableCell>
                 <TableCell sx={{ ...columnStyle, borderRight: 0 }}>
                   Action
@@ -61,47 +71,51 @@ export default function History() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {/* 2. Check if reservations exist and map */}
-              {reservations && reservations.length > 0 ? (
-                reservations.map((row) => {
-                  // 3. Logic to find concert name if only concertId is stored in reservation
-                  const concert = concerts?.find((c) => c.id == row.cid);
-                  const displayConcertName = concert?.name || "Unknown Concert";
+              {(() => {
+                const baseList =
+                  role === ROLE.ADMIN ? reservations : myReservations;
 
-                  return (
-                    <TableRow key={row.id} hover>
-                      <TableCell sx={cellStyle}>
-                        {new Date(row.createdAt).toLocaleString()}
-                      </TableCell>
-                      <TableCell sx={cellStyle}>
-                        {row.name || row.name || "N/A"}
-                      </TableCell>
-                      <TableCell sx={cellStyle}>{displayConcertName}</TableCell>
-                      <TableCell sx={{ ...cellStyle, borderRight: 0 }}>
-                        <Typography
-                          variant="caption"
-                          sx={{
-                            color: "black",
-                            fontWeight: "normal",
-                          }}
-                        >
-                          {row.action || "RESERVED"}
-                        </Typography>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })
-              ) : (
-                <TableRow>
-                  <TableCell
-                    colSpan={4}
-                    align="center"
-                    sx={{ py: 3, fontSize: "0.8rem", color: "gray" }}
-                  >
-                    No reservation history found.
-                  </TableCell>
-                </TableRow>
-              )}
+                if (baseList && baseList.length > 0) {
+                  return baseList.map((row) => {
+                    const concert = concerts?.find((c) => c.id == row.cid);
+                    const displayConcertName =
+                      concert?.name || "Unknown Concert";
+
+                    return (
+                      <TableRow key={row.id} hover>
+                        <TableCell sx={cellStyle}>
+                          {new Date(row.createdAt).toLocaleString()}
+                        </TableCell>
+                        {role == ROLE.ADMIN && (
+                          <TableCell sx={cellStyle}>
+                            {row.name || "N/A"}
+                          </TableCell>
+                        )}
+                        <TableCell sx={cellStyle}>
+                          {displayConcertName}
+                        </TableCell>
+                        <TableCell sx={{ ...cellStyle, borderRight: 0 }}>
+                          <Typography variant="caption" sx={{ color: "black" }}>
+                            {row.action || "RESERVED"}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  });
+                }
+
+                return (
+                  <TableRow>
+                    <TableCell
+                      colSpan={4}
+                      align="center"
+                      sx={{ py: 3, fontSize: "0.8rem", color: "gray" }}
+                    >
+                      No reservation history found.
+                    </TableCell>
+                  </TableRow>
+                );
+              })()}
             </TableBody>
           </Table>
         </TableContainer>

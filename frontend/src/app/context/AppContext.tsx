@@ -12,7 +12,11 @@ import { Concert, Reservation } from "../type";
 import getAllConcerts, { deleteConcert } from "../api/concert";
 import { createConcert } from "../api/concert";
 import { useCallback } from "react";
-import { getAllReservations, createReservation } from "../api/reservation";
+import {
+  getAllReservations,
+  createReservation,
+  getAllReservationsByName,
+} from "../api/reservation";
 
 interface ContextType {
   activeTab: AppMenu;
@@ -32,6 +36,9 @@ interface ContextType {
 
   reservations: Reservation[] | null;
   setReservations: (concerts: Reservation[]) => void;
+
+  myReservations: Reservation[] | null;
+  setMyReservations: (concerts: Reservation[]) => void;
   addReservation: (
     name: string,
     cid: string,
@@ -40,6 +47,7 @@ interface ContextType {
 
   refreshConcerts: () => Promise<void>;
   refreshReservations: () => Promise<void>;
+  refreshMyReservations: () => Promise<void>;
 }
 
 const AppContext = createContext<ContextType | undefined>(undefined);
@@ -49,6 +57,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [role, setRole] = useState<Role>(ROLE.ADMIN);
   const [concerts, setConcerts] = useState<Concert[] | null>([]);
   const [reservations, setReservations] = useState<Reservation[] | null>([]);
+  const [myReservations, setMyReservations] = useState<Reservation[] | null>(
+    [],
+  );
 
   const refreshConcerts = useCallback(async () => {
     try {
@@ -65,6 +76,16 @@ export function AppProvider({ children }: { children: ReactNode }) {
       const data = await getAllReservations();
       console.log(data);
       setReservations(data);
+    } catch (error) {
+      console.error("Failed to fetch concerts:", error);
+    }
+  }, []);
+
+  const refreshMyReservations = useCallback(async () => {
+    try {
+      const data = await getAllReservationsByName();
+      console.log(data);
+      setMyReservations(data);
     } catch (error) {
       console.error("Failed to fetch concerts:", error);
     }
@@ -117,6 +138,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       });
 
       await refreshReservations();
+      await refreshMyReservations();
 
       console.log("Reservation created successfully!");
     } catch (error) {
@@ -144,11 +166,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
         setConcerts,
         reservations,
         setReservations,
+        myReservations,
+        setMyReservations,
         addReservation,
         refreshConcerts,
         addConcert,
         removeConcert,
         refreshReservations,
+        refreshMyReservations,
       }}
     >
       {children}
